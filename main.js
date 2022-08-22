@@ -52,12 +52,14 @@ window.addEventListener('resize', () => {
 /**
  * Plane Shape
  */
-const planeGeometry = new THREE.PlaneGeometry(
-    world.plane.width,
-    world.plane.height,
-    world.plane.widthSegments,
-    world.plane.heightSegments
-);
+// const planeGeometry = new THREE.PlaneGeometry(
+//     world.plane.width,
+//     world.plane.height,
+//     world.plane.widthSegments,
+//     world.plane.heightSegments
+// );
+const planeGeometry = new THREE.PlaneGeometry({...world.plane});
+
 const planeMaterial = new THREE.MeshPhongMaterial({
     side: THREE.DoubleSide,
     flatShading: THREE.FlatShading,

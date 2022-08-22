@@ -85,35 +85,35 @@ camera.position.y = 0;
 camera.position.z = 2;
 
 scene.add(camera);
-// const light2 = gui.addFolder('Light 2');
-// light2.add(pointLight2.position, 'x').min(-3).max(3).step(0.01);
-// light2.add(pointLight2.position, 'y').min(-6).max(6).step(0.01);
-// light2.add(pointLight2.position, 'z').min(-3).max(3).step(0.01);
-// light2.add(pointLight2, 'intensity').min(0).max(10).step(0.01);
-// const light3 = gui.addFolder('Light 3');
-// light3.add(pointLight3.position, 'x').min(-3).max(3).step(0.01);
-// light3.add(pointLight3.position, 'y').min(-6).max(6).step(0.01);
-// light3.add(pointLight3.position, 'z').min(-3).max(3).step(0.01);
-// light3.add(pointLight3, 'intensity').min(0).max(20).step(0.01);
+const light2 = gui.addFolder('Light 2');
+light2.add(pointLight2.position, 'x').min(-3).max(3).step(0.01);
+light2.add(pointLight2.position, 'y').min(-6).max(6).step(0.01);
+light2.add(pointLight2.position, 'z').min(-3).max(3).step(0.01);
+light2.add(pointLight2, 'intensity').min(0).max(10).step(0.01);
+const light3 = gui.addFolder('Light 3');
+light3.add(pointLight3.position, 'x').min(-3).max(3).step(0.01);
+light3.add(pointLight3.position, 'y').min(-6).max(6).step(0.01);
+light3.add(pointLight3.position, 'z').min(-3).max(3).step(0.01);
+light3.add(pointLight3, 'intensity').min(0).max(20).step(0.01);
 
-// const light3Color = {
-//     color: 0x0000ff,
-// };
-// light2
-//     .addColor(light3Color, 'color')
-//     .onChange(() => pointLight2.color.set(light3Color.color));
-// light3
-//     .addColor(light3Color, 'color')
-//     .onChange(() => pointLight3.color.set(light3Color.color));
+const light3Color = {
+    color: 0x0000ff,
+};
+light2
+    .addColor(light3Color, 'color')
+    .onChange(() => pointLight2.color.set(light3Color.color));
+light3
+    .addColor(light3Color, 'color')
+    .onChange(() => pointLight3.color.set(light3Color.color));
 
-// const pointLight2Helper = new THREE.PointLightHelper(pointLight2, 1);
-// scene.add(pointLight2Helper);
-// const pointLight3Helper = new THREE.PointLightHelper(pointLight3, 1);
-// scene.add(pointLight3Helper);
+const pointLight2Helper = new THREE.PointLightHelper(pointLight2, 0.2);
+scene.add(pointLight2Helper);
+const pointLight3Helper = new THREE.PointLightHelper(pointLight3, 0.2);
+scene.add(pointLight3Helper);
 
 // Controls
-// const controls = new OrbitControls(camera, canvas)
-// controls.enableDamping = true
+const controls = new OrbitControls(camera, canvas)
+controls.enableDamping = true
 
 /**
  * Renderer
@@ -165,7 +165,7 @@ const tick = () => {
     sphere.position.z += 0.8 * (targetY - sphere.rotation.x);
 
     // Update Orbital Controls
-    // controls.update()
+    controls.update()
 
     // Render
     renderer.render(scene, camera);
