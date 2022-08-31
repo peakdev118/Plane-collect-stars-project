@@ -3,6 +3,7 @@ import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
 import { LoadingBar } from '@/libs/LoadingBar';
 import { Plane } from './Plane.js';
 import { Obstacles } from './Obstacles.js';
+import { Missiles } from './Missiles.js';
 import { SFX } from './SFX.js';
 
 class Game {
@@ -33,7 +34,7 @@ class Game {
         this.scene = new THREE.Scene();
         this.scene.add(this.cameraController);
 
-        const ambient = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
+        const ambient = new THREE.HemisphereLight(0x000000, 0xbbbbff, 1);
         ambient.position.set(0.5, 1, 0.25);
         this.scene.add(ambient);
 
@@ -77,6 +78,7 @@ class Game {
 
         this.score = 0;
         this.bonusScore = 0;
+        this.allScore = 0;
         this.lives = 3;
 
         let elm = document.getElementById('score');
@@ -104,6 +106,11 @@ class Game {
             case 32:
                 this.spaceKey = true;
                 break;
+            case 13:
+                {
+                    this.newMissilLunch();
+                    break;
+                }
         }
     }
 
@@ -155,6 +162,7 @@ class Game {
 
         this.plane = new Plane(this);
         this.obstacles = new Obstacles(this);
+        this.missiles = new Missiles(this);
 
         this.loadSGX();
     }
@@ -196,7 +204,6 @@ class Game {
 
     incScore() {
         this.score++;
-
         const elm = document.getElementById('score');
 
         if (this.score % 3 === 0) {
@@ -205,7 +212,14 @@ class Game {
         }
 
         this.sfx.play('gliss');
-        elm.innerHTML = this.score + this.bonusScore;
+        this.allScore = this.score + this.bonusScore;
+        elm.innerHTML = this.allScore;
+    }
+
+    decScore() {
+        this.allScore--;
+        const elm = document.getElementById('score');
+        elm.innerHTML = this.allScore;
     }
 
     decLives() {
@@ -218,6 +232,13 @@ class Game {
         if (this.lives == 0) setTimeout(this.gameOver.bind(this), 1200);
 
         this.sfx.play('explosion');
+    }
+
+    newMissilLunch() {
+        if(this.allScore>0){
+            this.decScore();
+            this.missiles.newMissile(this);
+        }
     }
 
     updateCamera() {
@@ -245,6 +266,7 @@ class Game {
 
         if (this.active) {
             this.obstacles.update(this.plane.position, dt);
+            this.missiles.updatePosition(dt);
         }
 
         this.updateCamera();
